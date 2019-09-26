@@ -56,5 +56,5 @@ $(document).ready(function(){
 
 
     }
-    moment().format('LTS');
+    console.log(moment().format('LTS'));
 })
