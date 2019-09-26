@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" src="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css"/>
     <title>Trains! Trains! Train!</title>
   </head>
   <body>
@@ -16,23 +16,65 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-sm-12">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Train Name</th>
-                                <th scope="col">Destination</th>
-                                <th scope="col">Frequency</th>
-                                <th scope="col">Next Arrival</th>
-                                <th scope="col">Time Left</th>
-                            </tr>
-                        </thead>
-                        <tbody id="train-data-table"> 
-                        </tbody>
-                    </table>
+                <h3>Trains schedule</h3>
+                <div id="table-col" class="col-sm-12">
+                    <div class="table-responsive-md">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Train Name</th>
+                                    <th scope="col">Destination</th>
+                                    <th scope="col">Frequency</th>
+                                    <th scope="col">Next Arrival</th>
+                                    <th scope="col">Time Left</th>
+                                </tr>
+                            </thead>
+                            <tbody id="train-data-table"> </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-
+            <h3>Add Train</h3>
+            <div class="col-sm-12">
+                <form>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="train-name">Train Name</label>
+                                <input class="form-control" id="train-name">
+                                <small id="train-name-help" class="form-text text-muted">Name or Route #</small>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="destination">Destination</label>
+                                <input class="form-control" id="destination">
+                                <small id="destination-help" class="form-text text-muted">Where are you going></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="first-train">First Train Time</label>
+                                <input  class="form-control" id="first-train">
+                                <small id="firt-train-help" class="form-text text-muted">The earliest you need to catch the train</small>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="frequency">Frequency</label>
+                                <input  class="form-control" id="frequency">
+                                <small id="frequncy-help" class="form-text text-muted">How Ofter does the train arrive</small>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     
     
