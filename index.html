@@ -36,7 +36,7 @@
             </div>
             <h3>Add Train</h3>
             <div class="col-sm-12">
-                <form>
+                <form id="add-train-form">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -76,14 +76,32 @@
                 </form>
             </div>
         </div>
-    
-    
 
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-app.js"></script>
 
-   
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDIC59MdchDa_B9578tXS8UjDFTtw1EbF8",
+    authDomain: "trains-95424.firebaseapp.com",
+    databaseURL: "https://trains-95424.firebaseio.com",
+    projectId: "trains-95424",
+    storageBucket: "trains-95424.appspot.com",
+    messagingSenderId: "1005747001739",
+    appId: "1:1005747001739:web:5fae4f9af328c0d335778e"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+    
 
 
     <!-- Optional JavaScript -->
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
