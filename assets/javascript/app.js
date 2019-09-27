@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-    
     const addTrainForm =$('form');
     let trainRef = firebase.database().ref('trains/')
 
@@ -9,24 +8,28 @@ $(document).ready(function(){
         this.start = start;
         this.freq = freq;
        
-        let schedArray = new Array(Math.floor(1440/freq)).fill(start)
-        const iterator = schedArray.keys();
+        let schedArray = new Array(Math.floor(1440/freq)).fill(start) //creates array of length of bus occurences
+        let startMilitary = moment(start, 'HHmm')
+console.log(startMilitary)
+        let startMins = startMilitary.get('hour')*60 + startMilitary.get('minute')
 
+        const iterator = schedArray.keys();
         for (let keys of iterator) {
             
-            console.log(Number.parseInt(keys)*Number.parseInt(freq)+Number.parseInt(start)); // expected output: "a" "b" "c"
-          }
+            schedArray[keys] = (Number.parseInt(keys)*Number.parseInt(freq))+Number.parseInt(startMins)
+         };
+
         this.sched = {
             ...schedArray
         };  
     }
+  
 
     
     // Add train
     $('#add-train-form').on('submit',function(e){
         e.preventDefault();
        
-
         let name = addTrainForm[0][0].value
          console.log(name)
         let dest  = addTrainForm[0][1].value
@@ -43,8 +46,6 @@ $(document).ready(function(){
             sched
         })
 
-        
-
         addTrainForm.each(function(){
             this.reset()
         })
@@ -57,8 +58,9 @@ $(document).ready(function(){
             let name = snap['name'];
             let dest = snap['dest'];
             let start = snap['start'];//need for calculation
-            let freq = snap['freq'];//interval for calculatin   
-
+            let freq = snap['freq'];//interval for calculation 
+            let sched = snap['sched']  
+console.log(sched['sched']);
             let tableRow = $('<tr>');
             let nameData = $('<td>').text(name);
             let destData = $('<td>').text(dest);
@@ -66,34 +68,21 @@ $(document).ready(function(){
             let nextArrival = $('<td>')
                 .attr({
                     class: 'next-arrival-text'
-                }).text('4pm'/*caluation */);
+                }).text(sched['sched'].find(function(route){
+                    return route >= (moment().get('hour')*60)+moment().get('minutes');
+                }))
+console.log()
+
             let timeLeft = $('<td>')
                 .attr({
                     class: 'time-left-text'
-                }).text('5min'/*calculation*/);
+                });
             let removeBtn =$('<button>X</button>')
     
             tableRow.append(nameData, destData, freqData, nextArrival, timeLeft, removeBtn);
-
             $('#train-data-table').append(tableRow)
     })
 
-    //Calculation
-    function calArrival(){
-        let nextArrivalText = $('.next-arrvial-text')
-        let timeLeftText = $('.time-left-text');
-        
-        /**Givens: start freg*/
-        let nextArrival = function(start, freq){
-            
-        }
-     
-
-
-    }
-
-    
-
-    
-    console.log(moment().format('LTS'));
+    console.log((moment().get('hour')*60)+moment().get('minutes'));
+    console.log(moment())
 })
