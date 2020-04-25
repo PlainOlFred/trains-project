@@ -14,9 +14,19 @@
         <div class="jumbotron">
             <h1 class="display-4">Trains! Trains! Train!</h1>
         </div>
-        <div class="container">
+        <div class="container mb-3">
             <div class="row">
-                <h3>Train schedule</h3>
+                <div class="col-sm-10">
+                    <h3>Train schedule</h3>
+                </div>
+                <div class="col-sm-2">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTrainModal">
+                    Add Train
+                    </button>
+                </div>
+            </div>
+            <div class="row">
                 <div id="table-col" class="col-sm-12">
                     <div class="table-responsive-md">
                         <table class="table table-hover">
@@ -24,91 +34,92 @@
                                 <tr>
                                     <th scope="col">Train Name</th>
                                     <th scope="col">Destination</th>
-                                    <th scope="col">Frequency</th>
+                                    <!-- <th scope="col">Frequency</th>
                                     <th scope="col">Next Arrival</th>
-                                    <th scope="col">Time Left</th>
-                                    <th scope="col">Remove</th>
+                                    <th scope="col">Time Left</th> -->
                                 </tr>
                             </thead>
-                            <tbody id="train-data-table"> </tbody>
+                            <tbody id="train-data-table"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <h3>Add Train</h3>
-            <div class="col-sm-12">
-                <form id="add-train-form">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="train-name">Train Name</label>
-                                <input class="form-control" id="train-name">
-                                <small id="train-name-help" class="form-text text-muted">Name or Route #</small>
+            
+
+            <!-- Modal -->
+            <div class="modal fade" id="addTrainModal" tabindex="-1" role="dialog" aria-labelledby="addTrainModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTrainModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fulid">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form id="add-train-form">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label for="train-name">Train Name</label>
+                                                <input class="form-control" id="train-name">
+                                                <small id="train-name-help" class="form-text text-muted">Name or Route #</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label for="destination">Destination</label>
+                                                <input class="form-control" id="destination">
+                                                <small id="destination-help" class="form-text text-muted">Where are you going></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label for="first-train">First Train Time</label>
+                                                <input  class="form-control" id="first-train">
+                                                <small id="firt-train-help" class="form-text text-muted">in 24 hour format</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label for="frequency">Frequency</label>
+                                                <input  class="form-control" id="frequency">
+                                                <small id="frequncy-help" class="form-text text-muted">How Often does the train arrive in minutes</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="destination">Destination</label>
-                                <input class="form-control" id="destination">
-                                <small id="destination-help" class="form-text text-muted">Where are you going></small>
-                            </div>
-                        </div>
+                        </div>   
                     </div>
-                    <div class="row">
-                        <div class="col-sm-5">
-                            <div class="form-group">
-                                <label for="first-train">First Train Time</label>
-                                <input  class="form-control" id="first-train">
-                                <small id="firt-train-help" class="form-text text-muted">in 24 hour format</small>
-                            </div>
-                        </div>
-                        <div class="col-sm-5">
-                            <div class="form-group">
-                                <label for="frequency">Frequency</label>
-                                <input  class="form-control" id="frequency">
-                                <small id="frequncy-help" class="form-text text-muted">How Often does the train arrive in minutes</small>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <button id="submit-btn" type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="add-train-btn" type="button" class="btn btn-primary">Add Train</button>
                     </div>
-                </form>
+                </div>
+            </div>
+            </div>
             </div>
         </div>
 
 <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-database.js"></script>
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
 
-<script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyDIC59MdchDa_B9578tXS8UjDFTtw1EbF8",
-    authDomain: "trains-95424.firebaseapp.com",
-    databaseURL: "https://trains-95424.firebaseio.com",
-    projectId: "trains-95424",
-    storageBucket: "trains-95424.appspot.com",
-    messagingSenderId: "1005747001739",
-    appId: "1:1005747001739:web:5fae4f9af328c0d335778e"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-</script>
     
 
-
-    <!-- FireBase Script -->
-    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <!-- Moment.js -->
-    <script src="assets/javascript/moment/moment.js"></script>
     <!-- Script Files -->
     <script src="assets/javascript/app.js"></script>
   </body>

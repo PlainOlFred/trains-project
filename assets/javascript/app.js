@@ -1,88 +1,82 @@
-$(document).ready(function(){
+$(document).ready(function () {
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDIC59MdchDa_B9578tXS8UjDFTtw1EbF8",
+    authDomain: "trains-95424.firebaseapp.com",
+    databaseURL: "https://trains-95424.firebaseio.com",
+    projectId: "trains-95424",
+    storageBucket: "trains-95424.appspot.com",
+    messagingSenderId: "1005747001739",
+    appId: "1:1005747001739:web:5fae4f9af328c0d335778e",
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
 
-    const addTrainForm =$('form');
-    let trainRef = firebase.database().ref('trains/')
+  const trainRef = firebase.database().ref("trains/");
+
+  let name = "";
+  let dest = "";
 
     //Create schedule
-    function Sched(start, freq){
-        this.start = start;
-        this.freq = freq;
-       
-        let schedArray = new Array(Math.floor(1440/freq)).fill(start) //creates array of length of bus occurences
-        let startMilitary = moment(start, 'HHmm')
-console.log(startMilitary)
-        let startMins = startMilitary.get('hour')*60 + startMilitary.get('minute')
-
-        const iterator = schedArray.keys();
-        for (let keys of iterator) {
-            
-            schedArray[keys] = (Number.parseInt(keys)*Number.parseInt(freq))+Number.parseInt(startMins)
-         };
-
-        this.sched = {
-            ...schedArray
-        };  
+    function createSched(start, freq) {
+        const schedArray = new Array(Math.floor(1440 / freq)).fill(start); 
+    
+        return schedArray
     }
-  
 
-    
-    // Add train
-    $('#add-train-form').on('submit',function(e){
-        e.preventDefault();
+    //Create listItem 
+    function createTrainListItem(route) {
+        
+        const trainListItem = $("<tr>");
        
-        let name = addTrainForm[0][0].value
-         console.log(name)
-        let dest  = addTrainForm[0][1].value
-        let start = addTrainForm[0][2].value
-        let freq = addTrainForm[0][3].value
-        let sched = new Sched(start, freq)
-        
+        trainListItem.append($("<td>").text(route.name));
+        trainListItem.append($("<td>").text(route.dest));
+        // trainListItem.append($("td").text("Freq"));
+        // trainListItem.append($("td").text("Next arrival"));
+        // trainListItem.append($("td").text("Time Left"));
 
-        trainRef.child(name).set({
-            name,
-            dest,
-            start,
-            freq,
-            sched
-        })
+        return trainListItem
+    }
 
-        addTrainForm.each(function(){
-            this.reset()
-        })
+    // Populate table
+    function populateTable(routeObj) {
+        $("#train-data-table").empty();
+        console.log(routeObj)
 
         
-    })
-    //Populate table
-    trainRef.on('child_added',function(snapshot){
-        let snap = snapshot.val()
-            let name = snap['name'];
-            let dest = snap['dest'];
-            let start = snap['start'];//need for calculation
-            let freq = snap['freq'];//interval for calculation 
-            let sched = snap['sched']  
-console.log(sched['sched']);
-            let tableRow = $('<tr>');
-            let nameData = $('<td>').text(name);
-            let destData = $('<td>').text(dest);
-            let freqData = $('<td>').text(freq);
-            let nextArrival = $('<td>')
-                .attr({
-                    class: 'next-arrival-text'
-                }).text(sched['sched'].find(function(route){
-                    return route >= (moment().get('hour')*60)+moment().get('minutes');
-                }))
-console.log()
+        for(const route in routeObj) {
+            $("#train-data-table").append(createTrainListItem(routeObj[route]))
+        }
+        
+    }
 
-            let timeLeft = $('<td>')
-                .attr({
-                    class: 'time-left-text'
-                });
-            let removeBtn =$('<button>X</button>')
+
+  // Add train
+  $("#add-train-btn").on("click", function (e) {
+    e.preventDefault();
+    name = $("#train-name").val();
+    dest = $("#destination").val();
+
+
+
     
-            tableRow.append(nameData, destData, freqData, nextArrival, timeLeft, removeBtn);
-            $('#train-data-table').append(tableRow)
+    trainRef.child(name).set({
+      name,
+      dest,
+      
     })
 
-    console.log((moment().get('hour')*60)+moment().get('minutes'));
-    console.log(moment())
-})
+    $('#addTrainModal').modal('toggle')
+
+  });
+
+  trainRef.on('value', (snapshot) => populateTable(snapshot.val()) )
+
+
+
+
+
+
+  
+});
+
